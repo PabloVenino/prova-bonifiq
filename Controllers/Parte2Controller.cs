@@ -19,16 +19,19 @@ namespace ProvaPub.Controllers
 		/// 
 		/// </summary>
 		TestDbContext _ctx;
-		public Parte2Controller(TestDbContext ctx)
+		IServiceHelper _serviceHelper;
+		public Parte2Controller(TestDbContext ctx, IServiceHelper serviceHelper)
 		{
 			_ctx = ctx;
+			_serviceHelper = serviceHelper;
 		}
 	
 		[HttpGet("products")]
 		public ProductList ListProducts(int page)
 		{
-			var productService = new ProductService(_ctx);
-			return productService.ListProducts(page);
+			//var productService = new ProductService(_ctx);
+			return _serviceHelper.ListItens<PaginateItem<Product>>(page);
+			//return productService.ListProducts(page);
 		}
 
 		[HttpGet("customers")]

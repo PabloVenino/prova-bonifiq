@@ -11,7 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<RandomService>();
+// Single instance for app
+builder.Services.AddScoped<RandomService>();
+//builder.Services.AddSingleton<RandomService>();
+
+// One instance ever needed
+//builder.Services.AddTransient<OtherRandomService>();
+
+// One instance for request
+//builder.Services.AddScoped<OtherOtherRandomService>();
+
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
 var app = builder.Build();
