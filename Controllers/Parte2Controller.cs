@@ -27,10 +27,10 @@ namespace ProvaPub.Controllers
 		}
 	
 		[HttpGet("products")]
-		public ProductList ListProducts(int page)
+		public async Task<PaginateItem<Product>> ListProducts(int page)
 		{
 			//var productService = new ProductService(_ctx);
-			return _serviceHelper.ListItens<PaginateItem<Product>>(page);
+			return await _serviceHelper.ListItens<Product>(page);
 			//return productService.ListProducts(page);
 		}
 

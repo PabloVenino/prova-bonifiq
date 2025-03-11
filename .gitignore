@@ -366,3 +366,4 @@ FodyWeavers.xsd
 .sonar/
 .sonarqube/
 .scannerwork/
+.vscode/launch.json

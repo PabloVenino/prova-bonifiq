@@ -1,6 +1,6 @@
 ﻿namespace ProvaPub.Models
 {
-	public class PaginateItem<T> where T : class
+	public class PaginateItem<T>
 	{
 		public List<T> Item { get; set; }
 		public int TotalCount { get; set; }

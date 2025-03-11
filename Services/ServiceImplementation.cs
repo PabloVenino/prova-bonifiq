@@ -6,16 +6,16 @@ namespace ProvaPub.Services;
 public class ServiceImplementation : IServiceHelper
 {
 
-	public List<T> ListItens<T>(int page)
+	public Task<PaginateItem<T>> ListItens<T>(int page)
 	{
+    
 
-
-		return new List<T>();
+		return new Task<PaginateItem<T>>(null);
 	}
 
 }
 
 public interface IServiceHelper
 {
-    List<T> ListItens<T>(int page);
+    Task<PaginateItem<T>> ListItens<T>(int page);
 }
