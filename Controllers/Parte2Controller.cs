@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 using ProvaPub.Services;
@@ -27,15 +28,13 @@ namespace ProvaPub.Controllers
 		}
 	
 		[HttpGet("products")]
-		public async Task<PaginateItem<Product>> ListProducts(int page)
+		public async Task<PaginateItem<Product>> ListProducts(int page, CancellationToken cancellationToken)
 		{
-			//var productService = new ProductService(_ctx);
-			return await _serviceHelper.ListItens<Product>(page);
-			//return productService.ListProducts(page);
-		}
+			return await _serviceHelper.GetPaginatedProductsAsync(page, cancellationToken);
+    }
 
 		[HttpGet("customers")]
-		public CustomerList ListCustomers(int page)
+		public async Task<CustomerList> ListCustomers(int page)
 		{
 			var customerService = new CustomerService(_ctx);
 			return customerService.ListCustomers(page);
