@@ -8,7 +8,7 @@ namespace ProvaPub.Implementations.Rules.Purchase;
 public class CustomerFirstOrderLimitRule : IRule<(Customer, decimal)>
 {
   private readonly TestDbContext _ctx;
-  private readonly decimal _limit = 100.00M;
+  private readonly decimal _limit = 100.00m;
 
   public CustomerFirstOrderLimitRule(TestDbContext ctx)
   {
@@ -21,6 +21,6 @@ public class CustomerFirstOrderLimitRule : IRule<(Customer, decimal)>
 
     var haveBoughtBefore = await _ctx.Orders.AnyAsync(o => o.CustomerId == customer.Id);
 
-    return haveBoughtBefore || purchaseValue <= _limit; // TODO: Solve the purchaseValue problem
+    return haveBoughtBefore || purchaseValue < _limit;
   }
 }

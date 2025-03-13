@@ -13,6 +13,7 @@ public class CustomerCanOnlyPurchaseOnceRule : IRule<Customer>
     _ctx = ctx;
   }
 
+
   public async Task<bool> IsSatisfiedAsync(Customer customer)
   {
     var baseDate = DateTime.UtcNow.AddMonths(-1);
