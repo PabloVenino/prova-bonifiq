@@ -3,21 +3,23 @@ using ProvaPub.Repository;
 
 namespace ProvaPub.Services
 {
-  public class ProductService
+  public class ProductService : IProductService
   {
-    private readonly TestDbContext _ctx;
-    private readonly IServiceHelper _serviceHelper;
+    private readonly IServiceHelper<Product> _serviceHelper;
 
-    public ProductService(TestDbContext ctx, IServiceHelper serviceHelper)
+    public ProductService(IServiceHelper<Product> serviceHelper)
     {
-      _ctx = ctx;
+      _serviceHelper = serviceHelper;
     }
 
-    public ProductList ListProducts(int page)
+    public async Task<PaginateItem<Product>> GetPaginatedProductAsync(int pageNumber, CancellationToken cancellation)
     {
-      _serviceHelper.ListItens<ProductList>(page);
-
-      return new ProductList() { HasNext = false, TotalCount = 10, Products = _ctx.Products.ToList() };
+      return await _serviceHelper.GetPaginatedEntityAsync(pageNumber, cancellation);
     }
+  }
+
+  public interface IProductService
+  {
+    Task<PaginateItem<Product>> GetPaginatedProductAsync(int pageNumber, CancellationToken cancellationToken);
   }
 }

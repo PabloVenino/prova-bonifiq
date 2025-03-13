@@ -12,15 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Single instance for app
 builder.Services.AddScoped<RandomService>();
-//builder.Services.AddSingleton<RandomService>();
-
-// One instance ever needed
-//builder.Services.AddTransient<OtherRandomService>();
-
-// One instance for request
-//builder.Services.AddScoped<OtherOtherRandomService>();
+builder.Services.AddTransient(typeof(IServiceHelper<>), typeof(ServiceHelper<>));
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));

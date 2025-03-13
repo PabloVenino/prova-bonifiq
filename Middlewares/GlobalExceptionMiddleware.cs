@@ -58,11 +58,12 @@ namespace ProvaPub.Handlers
     {
       return new Response<T>
       {
-        Error = new Error
+        Error = new ErrorDetail
         {
           ErrorCode = code,
-          InnerException = ex,
-          DeveloperMessage = $"Algo não saiu como o esperado: {ex}"
+          InnerException = ex.InnerException?.Message,
+          StackTrace = ex.StackTrace,
+          DeveloperMessage = $"Algo não saiu como o esperado: {ex.Message}"
         },
         StatusCode = statusCode,
         Message = message
