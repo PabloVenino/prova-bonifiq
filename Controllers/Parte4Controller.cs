@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using ProvaPub.Interfaces;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 using ProvaPub.Services;
@@ -18,21 +20,24 @@ namespace ProvaPub.Controllers
   [Route("[controller]")]
   public class Parte4Controller : ControllerBase
   {
-    TestDbContext _ctx;
-    public Parte4Controller(TestDbContext ctx)
+    private readonly ICustomerService _customerService;
+    public Parte4Controller(ICustomerService customerService)
     {
-      _ctx = ctx;
+      _customerService = customerService;
     }
 
-    [HttpGet("CanPurchase")]
-    public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
+    [HttpGet("can-purchase")]
+    public async Task<Response<object>> CanPurchase(int customerId, decimal purchaseValue)
     {
-      // CustomerService svc = new CustomerService(_ctx);
-
-      // return await svc.CanPurchase(customerId, purchaseValue);
-      // Bypass implementation of CustomerService for now
-      return await new Task<bool>(() => { return true; });
-
+      var canPurchase = await _customerService.CanPurchase(customerId, purchaseValue);
+      var response = new Response<object>
+      {
+        Data = new { CanPurchase = canPurchase },
+        Message = canPurchase ? "Você ainda pode efetuar a compra desse mês" : "Você já comprou esse mês, não?",
+        StatusCode = HttpStatusCode.OK
+      };
+      
+      return response;
     }
   }
 }
