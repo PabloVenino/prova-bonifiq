@@ -1,16 +1,17 @@
 ﻿using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using ProvaPub.Extensions;
+using ProvaPub.Interfaces;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 
-namespace ProvaPub.Services;
+namespace ProvaPub.Implementations;
 
-public class ServiceHelper<T> : IServiceHelper<T> where T : class
+public class ServiceImplementation<T> : IServiceAbstractions<T> where T : class
 {
   private readonly TestDbContext _ctx;
 
-  public ServiceHelper(TestDbContext ctx)
+  public ServiceImplementation(TestDbContext ctx)
   {
     _ctx = ctx;
   }
@@ -24,9 +25,4 @@ public class ServiceHelper<T> : IServiceHelper<T> where T : class
                       .ToPagedResultAsync(pageNumber, cancellationToken);
 
   }
-}
-
-public interface IServiceHelper<T>
-{
-  Task<PaginateItem<T>> GetPaginatedEntityAsync(int pageNumber, CancellationToken cancellationToken);
 }

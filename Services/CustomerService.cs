@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProvaPub.Interfaces;
 using ProvaPub.Models;
 using ProvaPub.Repository;
 
@@ -6,17 +7,17 @@ namespace ProvaPub.Services
 {
   public class CustomerService : ICustomerService
   {
-    IServiceHelper<Customer> _serviceHelper;
+    IServiceAbstractions<Customer> _ServiceImplementation;
     TestDbContext _ctx;
-    public CustomerService(IServiceHelper<Customer> serviceHelper, TestDbContext ctx)
+    public CustomerService(IServiceAbstractions<Customer> ServiceImplementation, TestDbContext ctx)
     {
-      _serviceHelper = serviceHelper;
+      _ServiceImplementation = ServiceImplementation;
       _ctx = ctx;
     }
 
     public async Task<PaginateItem<Customer>> GetPaginatedCustomerAsync(int pageNumber, CancellationToken cancellationToken)
     {
-      return await _serviceHelper.GetPaginatedEntityAsync(pageNumber, cancellationToken);
+      return await _ServiceImplementation.GetPaginatedEntityAsync(pageNumber, cancellationToken);
     }
 
     public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
@@ -48,10 +49,5 @@ namespace ProvaPub.Services
       return true;
     }
 
-  }
-
-  public interface ICustomerService
-  {
-    Task<PaginateItem<Customer>> GetPaginatedCustomerAsync(int pageNumber, CancellationToken cancellationToken);
   }
 }

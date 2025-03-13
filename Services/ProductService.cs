@@ -1,25 +1,20 @@
-﻿using ProvaPub.Models;
-using ProvaPub.Repository;
+﻿using ProvaPub.Interfaces;
+using ProvaPub.Models;
 
 namespace ProvaPub.Services
 {
   public class ProductService : IProductService
   {
-    private readonly IServiceHelper<Product> _serviceHelper;
+    private readonly IServiceAbstractions<Product> _ServiceImplementation;
 
-    public ProductService(IServiceHelper<Product> serviceHelper)
+    public ProductService(IServiceAbstractions<Product> ServiceImplementation)
     {
-      _serviceHelper = serviceHelper;
+      _ServiceImplementation = ServiceImplementation;
     }
 
     public async Task<PaginateItem<Product>> GetPaginatedProductAsync(int pageNumber, CancellationToken cancellation)
     {
-      return await _serviceHelper.GetPaginatedEntityAsync(pageNumber, cancellation);
+      return await _ServiceImplementation.GetPaginatedEntityAsync(pageNumber, cancellation);
     }
-  }
-
-  public interface IProductService
-  {
-    Task<PaginateItem<Product>> GetPaginatedProductAsync(int pageNumber, CancellationToken cancellationToken);
   }
 }
