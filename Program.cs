@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using ProvaPub.Handlers;
 using ProvaPub.Implementations;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IRule<Customer>, CustomerMustBeRegistredRule>();
 builder.Services.AddScoped<IRule<Customer>, CustomerCanOnlyBuyInBusinessHours>();
 builder.Services.AddScoped<IRule<(Customer, decimal)>, CustomerFirstOrderLimitRule>();
 builder.Services.AddScoped<IRule<Customer>, CustomerCanOnlyPurchaseOnceRule>();
+builder.Services.AddTransient<ISystemClock, SystemClock>();
 
 builder.Services.AddDbContext<TestDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("ctx")));
